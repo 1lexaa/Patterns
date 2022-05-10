@@ -11,6 +11,8 @@ namespace DesignPatterns.BehavioralPatterns
             SymbolCounter symbolCounter = new SymbolCounter();
             writer.Subscribe(symbolCounter);
 
+            WordSearcher wordSearcher = new WordSearcher();
+
             Console.WriteLine("Type smth");
             ConsoleKeyInfo k;
             do
