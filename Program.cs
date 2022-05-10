@@ -16,6 +16,7 @@ namespace DesignPatterns
             Console.WriteLine(" 14 Abstract Factory: ");
             Console.WriteLine("2  Behavioral: ");
             Console.WriteLine(" 21 Strategy: ");
+            Console.WriteLine(" 22 Observer: ");
             Console.WriteLine("3  Structural: ");
             Console.WriteLine(" 31 Decorator: ");
             String? userChoice = Console.ReadLine();
@@ -62,6 +63,12 @@ namespace DesignPatterns
                     StrategyDemo.ShowDetails();
                     
                     #endregion
+                    break;
+
+                    case "22":
+                    #region observer
+                new BehavioralPatterns.ObserverDemo().Show();
+                #endregion
                     break;
                 case "31":
                     #region Decorator
