@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tvTzQCYZzojUInJAJpmTextV42DKvo+9bcfgVi70hruJCC1/WJUzi7U3VD5xwV22UQJhheJ+YvBPzJJdnc1gdw==",
+  "dgSpecHash": "nmEjaUygLbR3OE8IFbgq/BvyzjO9pQJQCL/83yCru9eB2Aexv/NNw5TmUkSterD9lGCO+5N0WG6notCTRf7lew==",
   "success": true,
-  "projectFilePath": "/Users/1lexaa/Documents/учеба/DesignPatterns/DesignPatterns.csproj",
+  "projectFilePath": "/Users/1lexaa/Documents/учеба/Patterns/DesignPatterns.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

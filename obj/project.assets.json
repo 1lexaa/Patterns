@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/1lexaa/Documents/учеба/DesignPatterns/DesignPatterns.csproj",
+      "projectUniqueName": "/Users/1lexaa/Documents/учеба/Patterns/DesignPatterns.csproj",
       "projectName": "DesignPatterns",
-      "projectPath": "/Users/1lexaa/Documents/учеба/DesignPatterns/DesignPatterns.csproj",
+      "projectPath": "/Users/1lexaa/Documents/учеба/Patterns/DesignPatterns.csproj",
       "packagesPath": "/Users/1lexaa/.nuget/packages/",
-      "outputPath": "/Users/1lexaa/Documents/учеба/DesignPatterns/obj/",
+      "outputPath": "/Users/1lexaa/Documents/учеба/Patterns/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/1lexaa/.nuget/NuGet/NuGet.Config"
