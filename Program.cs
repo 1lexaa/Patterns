@@ -17,11 +17,13 @@ namespace DesignPatterns
             Console.WriteLine(" 12 Simple Factory: ");
             Console.WriteLine(" 13 Factory Method: ");
             Console.WriteLine(" 14 Abstract Factory: ");
+            Console.WriteLine(" 15 Builder: ");
             Console.WriteLine("2  Behavioral: ");
             Console.WriteLine(" 21 Strategy: ");
             Console.WriteLine(" 22 Observer: ");
             Console.WriteLine("3  Structural: ");
             Console.WriteLine(" 31 Decorator: ");
+            Console.WriteLine(" 32 Bridge: ");
             String? userChoice = Console.ReadLine();
             switch(userChoice)
             {
@@ -53,7 +55,12 @@ namespace DesignPatterns
                     #region  AbstractFactory
                      new CreationalPatterns.AbstractFactory().Show();
                     #endregion
-                   
+                    break;
+
+                    case "15":
+                    #region Builder
+                    new CreationalPatterns.BuilderDemo().Show();
+                    #endregion 
                     break;
 
                 case "21":
@@ -78,6 +85,13 @@ namespace DesignPatterns
                     new Decorator().Show();
                     #endregion
                     break;
+
+                    case "32":
+                    #region Bridge
+                    new BridgeDemo().Show();
+                    #endregion
+                    break;
+                    
                 default:
                     Console.WriteLine("Invalid Choice 💩");
                     break;
