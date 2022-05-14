@@ -6,158 +6,179 @@ using System.Threading.Tasks;
 
 namespace DesignPatterns.CreationalPatterns
 {
-    class BuilderDemo
+    internal class BuilderDemo
     {
         public void Show()
         {
-            DrinkBuilder db = new CoffeeBuilder();
+            DrinkBuilder builder = new CoffeeBuilder();
+            builder
+                .SetMilk()
+                .SetSugar()
+                .SetSyrup();
 
-            db.SetSugar()
-            .SetChocko()
-            .SetMilk();
-
-            Drink drink = db.Build();
-
+            Drink drink = builder.Build();
             Console.WriteLine(drink.Description);
 
-            db = new CocoaBuilder();
+            DrinkDirector drinkDirector = new DrinkDirector(builder);
+            drink = drinkDirector.MakeAmericano();
+            Console.WriteLine(drink.Description);
+            drink = drinkDirector.MakeEspresso();
+            Console.WriteLine(drink.Description);
+            Console.WriteLine("------------------------");
 
-            db.SetSugar()
-                .SetChocko()
-                .SetMilk().SetSyrup();
-            Drink drink2 = db.Build();
+            Drink drink1 = 
+                new CoffeeBuilder()
+                    .SetCinnamon()
+                    .SetCream()
+                    .SetIce()
+                    .Build();
+            Console.WriteLine(drink1.Description);
 
-            Console.WriteLine(drink2.Description);
-        }
-    }
+            drink1 =
+                new CocoaBuilder()
+                    .SetSugar()
+                    .SetChocko()
+                    .Build();
+            Console.WriteLine(drink1.Description);
 
-    class CoffeeBuilder : DrinkBuilder
-    {
-        public CoffeeBuilder() : base(new Coffee())
-        {
-        }
-    }
-
-    class CocoaBuilder : DrinkBuilder
-    {
-        public CocoaBuilder() : base(new Cocoa())
-        {
-        }
-    }
-
-    class Cocoa : Drink
-    {
-        public Cocoa() : base("Cocoa")
-        {
-            HasMilk = false;
-            HasSugar = false;
-            HasSyrup = false;
-            HasCream = false;
-            HasChocko = false;
-            HasCinnamon = false;
-            HasIce = false;
-        }
-    }
-
-    class Coffee : Drink
-    {
-        public Coffee() : base("Coffee")
-        {
-            HasMilk = false;
-            HasSugar = false;
-            HasSyrup = false;
-            HasCream = false;
-            HasChocko = false;
-            HasCinnamon = false;
-            HasIce = false;
-        }
-    }
-
-    class DrinkBuilder
-    {
-        public DrinkBuilder(Drink drink)
-        {
-            this.drink = drink;
-        }
-        
-        private Drink drink;
-
-        public DrinkBuilder SetMilk()
-        {
+            // без паттерна
+            drink = new Coffee();
             drink.HasMilk = true;
-            return this;
-        }
-        public DrinkBuilder SetSugar()
-        {
             drink.HasSugar = true;
-            return this;
-        }
-        public DrinkBuilder SetSyrup()
-        {
-            drink.HasSyrup = true;
-            return this;
-        }
-        public DrinkBuilder SetCream()
-        {
-            drink.HasCream = true;
-            return this;
-        }
-        public DrinkBuilder SetChocko()
-        {
-            drink.HasChocko = true;
-            return this;            
-        }
-        public DrinkBuilder SetCinnamon()
-        {
-            drink.HasCinnamon = true;
-            return this;
-        }
-        public DrinkBuilder SetIce()
-        {
-            drink.HasIce = true;
-            return this;
-        }
+            Console.WriteLine(drink.Description);
 
-        public Drink Build()
-        {
-            return drink;
+            // без паттерна C# style (список инициализации)
+            drink = new Cocoa
+            {
+                HasSugar = true,
+                HasIce = true
+            };
+            Console.WriteLine(drink.Description);
         }
-
     }
 
     abstract class Drink
     {
-        public string Name { get; }
-        public string Description
-        {
+        public string Name { get; private set; }
+        public bool HasMilk { get; set; }      = false;
+        public bool HasSugar { get; set; }     = false;
+        public bool HasSyrup { get; set; }     = false;
+        public bool HasCream { get; set; }     = false;
+        public bool HasChocko { get; set; }    = false;
+        public bool HasCinnamon { get; set; }  = false;
+        public bool HasIce { get; set; }       = false;
+        public String Feature { get; set; }    = String.Empty;
+        public string Description { 
             get
             {
-                var sb = new StringBuilder();
-                sb.Append($"{Name} ");
-                if (HasMilk) { sb.Append("with milk "); }
-                if (HasSugar) { sb.Append("with sugar "); }
-                if (HasSyrup) { sb.Append("with syrup "); }
-                if (HasCream) { sb.Append("with cream "); }
-                if (HasChocko) { sb.Append("with chocko "); }
-                if (HasCinnamon) { sb.Append("with cinnamon "); }
-                if (HasIce) { sb.Append("with ice "); }
+                StringBuilder sb = new StringBuilder(Name);
+                if (HasMilk)     sb.Append(" with milk");
+                if (HasSugar)    sb.Append(" with sugar");
+                if (HasSyrup)    sb.Append(" with syrup");
+                if (HasCream)    sb.Append(" with cream");
+                if (HasChocko)   sb.Append(" with chockolat");
+                if (HasCinnamon) sb.Append(" with cinnamon");
+                if (HasIce)      sb.Append(" with ice");
+                if (Feature != String.Empty) sb.Append(Feature);
 
                 return sb.ToString();
-            }
+            } 
         }
-
-        public bool HasMilk { get; set; }
-        public bool HasSugar { get; set; }
-        public bool HasSyrup { get; set; }
-        public bool HasCream { get; set; }
-        public bool HasChocko { get; set; }
-        public bool HasCinnamon { get; set; }
-        public bool HasIce { get; set; }
-
         public Drink(string Name)
         {
             this.Name = Name;
         }
+
+    }
+    class Coffee : Drink
+    {
+        public Coffee() : base("Coffee") { }
+    }
+    class Cocoa : Drink
+    {
+        public Cocoa() : base("Cocoa") { }
     }
 
+    abstract class DrinkBuilder
+    {
+        private Drink drink;  // Объект, который будет построен
+
+        public DrinkBuilder(Drink drink)
+        {
+            this.drink = drink;
+        }
+
+        public DrinkBuilder SetMilk() { drink.HasMilk = true; return this; }
+        public DrinkBuilder SetSugar() { drink.HasSugar = true; return this; }
+        public DrinkBuilder SetSyrup() { drink.HasSyrup = true; return this; }
+        public DrinkBuilder SetCream() { drink.HasCream = true; return this; }
+        public DrinkBuilder SetChocko() { drink.HasChocko = true; return this; }
+        public DrinkBuilder SetCinnamon() { drink.HasCinnamon = true; return this; }
+        public DrinkBuilder SetIce() { drink.HasIce = true; return this; }
+
+        public Drink Build() { return drink; }
+    }
+    class CoffeeBuilder : DrinkBuilder
+    {
+        public CoffeeBuilder() : base(new Coffee()) { }
+    }
+    class CocoaBuilder : DrinkBuilder
+    {
+        public CocoaBuilder() : base(new Cocoa()) { }
+    }
+
+    class DrinkDirector
+    {
+        private readonly DrinkBuilder drinkBuilder;
+        public DrinkDirector(DrinkBuilder drinkBuilder)
+        {
+            this.drinkBuilder = drinkBuilder;
+        }
+
+        public Drink MakeEspresso()
+        {
+            Drink drink = drinkBuilder.Build();
+            drink.Feature = " Espresso";
+            return drink;
+        }
+
+        public Drink MakeAmericano()
+        {
+            Drink drink = drinkBuilder.Build();
+            drink.Feature = " Americano";
+            return drink;
+        }
+    }
 }
+/* Строитель (Builder)
+Порождающий паттерн - производящий объекты
+Используется для объектов, у которых много различных настроек
+Противопоставляется антипаттерну "телескоп"
+ object.ctor(int par1, int par2, string par3, ..., int parN);
+Альтернатива:
+ список инициализации
+
+Суть:
+ Создается Builder:  builder = new()
+ Задаются его параметры (в любом порядке и количестве)
+  builder.SetPar1(10);
+  builder.SetPar3("Test");
+ Производится объект
+  а) obj = builder.build()
+  б) obj = new Obj(builder)
+
+Пример: Напитки
+ = кофе
+ = какао
+     К напитку можно добавить:
+     - молоко
+     - сахар
+     - сливки
+     - сироп
+     - корицу
+     - шоколад
+     - мороженное
+
+Д.З. UML диаграмма паттерна "Строитель"
+(вариант использования а), рассмотренный на занятии)
+ */

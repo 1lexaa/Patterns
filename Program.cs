@@ -9,6 +9,7 @@ namespace DesignPatterns
         
         static void Main(string[] args)
         {
+            #region CW
             
             Console.Clear();
             Console.WriteLine("Desing patterns");
@@ -24,9 +25,14 @@ namespace DesignPatterns
             Console.WriteLine("3  Structural: ");
             Console.WriteLine(" 31 Decorator: ");
             Console.WriteLine(" 32 Bridge: ");
+            Console.WriteLine(" 33 Proxy: ");
             String? userChoice = Console.ReadLine();
+            Console.Clear();
+
+            #endregion 
             switch(userChoice)
             {
+                
                 case "11":
                     #region Singleton
                     // Приватный конструктор не дает создать объект через new 
@@ -92,6 +98,11 @@ namespace DesignPatterns
                     #endregion
                     break;
                     
+                    case "33":
+                    #region Proxy
+                    new ProxyDemo().Show();
+                    #endregion
+                    break;
                 default:
                     Console.WriteLine("Invalid Choice 💩");
                     break;
