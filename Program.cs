@@ -22,6 +22,7 @@ namespace DesignPatterns
             Console.WriteLine("2  Behavioral: ");
             Console.WriteLine(" 21 Strategy: ");
             Console.WriteLine(" 22 Observer: ");
+            Console.WriteLine(" 23 State: ");
             Console.WriteLine("3  Structural: ");
             Console.WriteLine(" 31 Decorator: ");
             Console.WriteLine(" 32 Bridge: ");
@@ -85,6 +86,12 @@ namespace DesignPatterns
                     #region observer
                 new BehavioralPatterns.ObserverDemo().Show();
                 #endregion
+                    break;
+
+                    case "23":
+                    #region State
+                    new BehavioralPatterns.StateDemo().Show();
+                    #endregion
                     break;
                 case "31":
                     #region Decorator
