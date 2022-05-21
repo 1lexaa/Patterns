@@ -23,17 +23,19 @@ namespace DesignPatterns
             Console.WriteLine(" 21 Strategy: ");
             Console.WriteLine(" 22 Observer: ");
             Console.WriteLine(" 23 State: ");
+            Console.WriteLine(" 24 Chain: ");
             Console.WriteLine("3  Structural: ");
             Console.WriteLine(" 31 Decorator: ");
             Console.WriteLine(" 32 Bridge: ");
             Console.WriteLine(" 33 Proxy: ");
+             Console.WriteLine(" 34 Composite: ");
             String? userChoice = Console.ReadLine();
             Console.Clear();
 
             #endregion 
             switch(userChoice)
             {
-                
+               #region CreationalPatterns
                 case "11":
                     #region Singleton
                     // Приватный конструктор не дает создать объект через new 
@@ -70,6 +72,9 @@ namespace DesignPatterns
                     #endregion 
                     break;
 
+                    #endregion
+
+#region BehavioralPatterns
                 case "21":
                     #region Strategy
                     var StrategyDemo = new BehavioralPatterns.Strategy();
@@ -93,6 +98,16 @@ namespace DesignPatterns
                     new BehavioralPatterns.StateDemo().Show();
                     #endregion
                     break;
+
+                    case "24":
+                    #region Chain
+                    new BehavioralPatterns.ChainDemo().Show();
+                    #endregion
+                    break;
+                    #endregion
+                
+
+                    #region StructuralPatterns
                 case "31":
                     #region Decorator
                     new Decorator().Show();
@@ -110,6 +125,14 @@ namespace DesignPatterns
                     new ProxyDemo().Show();
                     #endregion
                     break;
+
+                    case "34":
+                    #region Composite
+                        new CompositeDemo().Show();
+                    #endregion
+                    break;
+
+                    #endregion
                 default:
                     Console.WriteLine("Invalid Choice 💩");
                     break;

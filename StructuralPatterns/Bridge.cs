@@ -1,70 +1,70 @@
 using System;
+using System.ComponentModel.Design;
 
 namespace DesignPatterns.StructuralPatterns
 {
-
-    internal class BridgeDemo
+    public class BridgeDemo
     {
-        public void Show()
-    {
-        Figure f1 = new Figure();
-        f1.AddComponent(new ShapeComponent("Circle"));
-        f1.AddComponent(new StrokeComponent("Tomato", 3));
-        f1.AddComponent(new FillComponent("Salmon","RadialGradient"));
-        f1.Render();
+       public void Show()
+        {
+            Figure f1 = new Figure();
+            f1.AddComponent(new ShapeComponent("Circle"));
+            f1.AddComponent(new StrokeComponent("Tomato", 3));
+            f1.AddComponent(new FillComponent("Salmon", "RadialGradient"));
+            f1.AddComponent(new ShadowComponent(3, 3, 80));
+            f1.Render();
 
-        Figure f2 = new Figure();
-        f2.AddComponent(new ShapeComponent("Diamond"));
-        f2.AddComponent(new FillComponent("Blue", "Solid"));
-        f2.Render();
+            Figure f2 = new Figure()
+            .AddComponent(new ShapeComponent("Toilet Paper"))
+            .AddComponent(new FillComponent("Gold", "Solid"));
+            f2.Render();
+        }
     }
-    }
-
 
     interface IFigureComponent
     {
-        void Render();
-    
+        void Render();  // метод своего отображения (рисования)
     }
-
 
     class Figure
     {
         private List<IFigureComponent> components;
 
-    public Figure()
-    {
-        components = new List<IFigureComponent>();
-    }
-    public void AddComponent(IFigureComponent component)
-    {
-        components.Add(component);
-    }
-
-    public void Render()
-    {
-        if(components.Count == 0)
+        public Figure()
         {
-            Console.WriteLine("👻"); // empty figure - no comp
+            components = new List<IFigureComponent>();
         }
-        else 
+
+        public Figure AddComponent(IFigureComponent component)
         {
-            foreach(IFigureComponent component in components)
+            components.Add(component);
+            return this;
+        }
+
+        public void Render()
+        {
+            if(components.Count == 0)
             {
-                component.Render();
+                Console.WriteLine("👻"); // empty figure - no components
             }
+            else
+            {
+                foreach(IFigureComponent component in components)
+                {
+                    component.Render();
+                }
+                Console.WriteLine();
+            }
+            
         }
     }
-    }
-
 
     class ShapeComponent : IFigureComponent
     {
-        private readonly string Shape;
-
-        public ShapeComponent(String shape)
+        private readonly String Shape;
+        public ShapeComponent(String Shape)
         {
-            Shape = shape;
+            this.Shape = Shape;
         }
         public void Render()
         {
@@ -73,55 +73,71 @@ namespace DesignPatterns.StructuralPatterns
     }
 
     class StrokeComponent : IFigureComponent
-{
-private readonly String Color;
-private readonly int Width;
-public StrokeComponent(String Color, int Width)
-{
-this.Color = Color;
-this.Width = Width;
-}
-public void Render()
-{
-Console.Write($" {Color} border {Width}px width ");
-}
-}
-
-    class FillComponent : IFigureComponent
     {
-        private readonly String _color;
-        private readonly String _style;
-
-        public FillComponent(string color , string style)
+        private readonly String Color;
+        private readonly int Width;
+        public StrokeComponent(String Color, int Width)
         {
-            _color = color;
-            _style = style;
+            this.Color = Color;
+            this.Width = Width;
+        }
+        public void Render()
+        {
+            Console.Write($"{Color} border {Width}px width ");
+        }
+    }
+
+    class FillComponent :IFigureComponent
+    {
+        private readonly String Color;
+        private readonly String Style;
+
+        public FillComponent(String color, String style)
+        {
+            this.Color = color;
+            this.Style = style;
+        }
+        public void Render()
+        {
+            Console.Write($"{Style} fill with {Color} color ");
         }
 
-        public void Render() => Console.WriteLine($"fill {_color} style {_style}");
     }
 
+    class ShadowComponent : IFigureComponent
+    {
+        private readonly int OffsetX;
+        private readonly int OffsetY;
+        private readonly int Blur;
 
-   
+        public ShadowComponent(int X, int Y, int Blur)
+        {
+            this.OffsetX = X;
+            this.OffsetY = Y;
+            this.Blur = Blur;
+        }
+        public void Render()
+        {
+            Console.Write($" and shadow with [{OffsetX},{OffsetY}] pos and {Blur}% blur");
+        }
 
-
-
-    
+    }
 }
 
-
-/* Мост (Bridge)
+/* Мост(Bridge)
 Структурный шаблон, заменяющий наследование/реализацию на агрегацию
-а) без паттерна
-Есть фигуры : базовый класс Figure, наследники Square:Figure,Circle: Figure
-Возникает необходимость рисовать фигуры с контуром StrokeSquare, StrokeCircle 
-Фигуры с заполнением : FillSquare, FillCircle
-Фигуры с контуром и заполнением : FillStrokeSquare
-Добавляем концепцию рисования штрихом : DashFillStrokeSquare
+а) Без паттерна
+ Есть фигуры: базовый класс Figure, наследники Square:Figure, Circle:Figure
+ Возникает необходимость рисовать фигуры с контуром StrokeSquare, StrokeCircle
+ Фигуры с заполнением FillSquare, FillCircle
+ Фигуры с контуром и заполнением FillStrokeSquare...
 
 б) Паттерн
-Создаем фигуру как контейнер , а в ней - коллекцию компонент
-Figure {
-    Commponents [FillComponent,StrokeComponent,ShapeComponent,.....]
-    }
-*/
+ Создает Фигуру как контейнер, а в ней - коллекцию компонент
+ Figure
+ {
+    Components [FillComponent, StrokeComponent, ShapeComponent...]
+    
+
+ }
+ */
